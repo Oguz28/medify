@@ -1,53 +1,37 @@
-plugins {
-    id("com.android.application")
-    id("com.google.gms.google-services")
-    id("kotlin-android")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
-    id("dev.flutter.flutter-gradle-plugin")
-}
+// android/app/build.gradle
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services' // Google Services Plugin'in eklenmesi
 
 android {
-    namespace = "com.app.medify"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
-    }
+    compileSdkVersion 33
 
     defaultConfig {
-        applicationId = "com.app.medify"
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        applicationId "com.app.medify"
+        minSdkVersion 21
+        targetSdkVersion 33
+        versionCode 1
+        versionName "1.0"
     }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            // Eğer release imzalama yapılandırmanız varsa, buraya ekleyin
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }
 
 dependencies {
-    // Firebase Android BoM kullanarak uyumlu sürümleri otomatik yönetin.
-    implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
-  
-    // Firebase Analytics (örnek olarak eklenmiştir)
-    implementation("com.google.firebase:firebase-analytics")
-  
-    // İlaç ekleme modülümüzde kullandığımız Firestore için
-    implementation("com.google.firebase:firebase-firestore")
-}
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.7.20"
 
-flutter {
-    source = "../.."
+    // Firebase BoM (Bill of Materials) ile tüm Firebase bağımlılıklarının uyumlu sürümünü yönetiyoruz
+    implementation platform("com.google.firebase:firebase-bom:33.10.0")
+    
+    // Örneğin Firebase Analytics ve Firestore kullanımı
+    implementation "com.google.firebase:firebase-analytics"
+    implementation "com.google.firebase:firebase-firestore"
+    
+    // Diğer bağımlılıklarınız...
 }

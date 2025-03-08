@@ -37,7 +37,6 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
         'time': '${selectedTime!.hour}:${selectedTime!.minute}',
         'createdAt': FieldValue.serverTimestamp(),
       });
-      // Async işlem sonrası context kullanmadan önce mounted kontrolü
       if (mounted) {
         Navigator.of(context).pop();
       }
@@ -65,8 +64,9 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                   labelText: 'İlaç Adı',
                   border: OutlineInputBorder(),
                 ),
-                validator: (value) =>
-                    value == null || value.isEmpty ? 'Lütfen ilaç adını girin.' : null,
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Lütfen ilaç adını girin.'
+                    : null,
                 onSaved: (value) => medicationName = value,
               ),
               const SizedBox(height: 16),
@@ -75,8 +75,9 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                   labelText: 'Dozaj',
                   border: OutlineInputBorder(),
                 ),
-                validator: (value) =>
-                    value == null || value.isEmpty ? 'Lütfen dozaj bilgisini girin.' : null,
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Lütfen dozaj bilgisini girin.'
+                    : null,
                 onSaved: (value) => dosage = value,
               ),
               const SizedBox(height: 16),

@@ -1,12 +1,14 @@
+// android/build.gradle
+
 buildscript {
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        // Android Gradle plugin sürümü
+        // Android Gradle Plugin sürümü
         classpath("com.android.tools.build:gradle:7.0.4")
-        // Google Services Gradle plugin'i (güncel sürüm: 4.4.2)
+        // Google Services Gradle Plugin (Firebase)
         classpath("com.google.gms:google-services:4.4.2")
     }
 }
@@ -16,20 +18,4 @@ allprojects {
         google()
         mavenCentral()
     }
-}
-
-val newBuildDir: Directory = rootProject.layout.buildDirectory.dir("../../build").get()
-rootProject.layout.buildDirectory.set(newBuildDir)
-
-subprojects {
-    val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
-    project.layout.buildDirectory.set(newSubprojectBuildDir)
-}
-
-subprojects {
-    project.evaluationDependsOn(":app")
-}
-
-tasks.register<Delete>("clean") {
-    delete(rootProject.layout.buildDirectory)
 }

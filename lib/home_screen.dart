@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'add_medication_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -44,12 +45,48 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 // Dummy Sayfa Örnekleri:
-class MedicationListPage extends StatelessWidget {
+class MedicationListPage extends StatefulWidget {
+  @override
+  _MedicationListPageState createState() => _MedicationListPageState();
+}
+
+class _MedicationListPageState extends State<MedicationListPage> {
+  // Gelecekte burada eklenen ilaçları saklayabilirsiniz
+  List<Map<String, String>> medications = [];
+
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('İlaç Listesi (Dummy Data)'));
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('İlaç Listesi'),
+      ),
+      body: medications.isEmpty
+          ? Center(child: Text('Henüz ilaç eklenmedi.'))
+          : ListView.builder(
+              itemCount: medications.length,
+              itemBuilder: (context, index) {
+                final med = medications[index];
+                return ListTile(
+                  title: Text(med['name'] ?? ''),
+                  subtitle: Text('Dozaj: ${med['dosage'] ?? ''}'),
+                );
+              },
+            ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          // İlaç ekleme ekranına geçiş
+          await Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => AddMedicationScreen()),
+          );
+          // Geri dönüşte listeyi yenileyebilirsiniz (şimdilik dummy işlem)
+          setState(() {});
+        },
+        child: Icon(Icons.add),
+      ),
+    );
   }
 }
+
 
 class DiaryPage extends StatelessWidget {
   @override

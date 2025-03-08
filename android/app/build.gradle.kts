@@ -1,12 +1,13 @@
 plugins {
     id("com.android.application")
+    id("com.google.gms.google-services")
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
 
 android {
-    namespace = "com.example.medify"
+    namespace = "com.app.medify"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -20,10 +21,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.medify"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
+        applicationId = "com.app.medify"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
@@ -37,6 +35,17 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+}
+
+dependencies {
+    // Firebase Android BoM kullanarak uyumlu sürümleri otomatik yönetin.
+    implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
+  
+    // Firebase Analytics (örnek olarak eklenmiştir)
+    implementation("com.google.firebase:firebase-analytics")
+  
+    // İlaç ekleme modülümüzde kullandığımız Firestore için
+    implementation("com.google.firebase:firebase-firestore")
 }
 
 flutter {

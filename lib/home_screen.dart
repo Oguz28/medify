@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'add_medication_screen.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
-  final List<Widget> _pages = [
+  final List<Widget> _pages = const [
     MedicationListPage(),
     DiaryPage(),
     SettingsPage(),
@@ -25,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
             _currentIndex = index;
           });
         },
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.medical_services),
             label: 'İlaçlar',
@@ -44,60 +47,73 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// Dummy Sayfa Örnekleri:
 class MedicationListPage extends StatefulWidget {
+  const MedicationListPage({Key? key}) : super(key: key);
+
   @override
   _MedicationListPageState createState() => _MedicationListPageState();
 }
 
 class _MedicationListPageState extends State<MedicationListPage> {
-  // Gelecekte burada eklenen ilaçları saklayabilirsiniz
-  List<Map<String, String>> medications = [];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('İlaç Listesi'),
+        title: const Text('İlaç Listesi'),
       ),
-      body: medications.isEmpty
-          ? Center(child: Text('Henüz ilaç eklenmedi.'))
-          : ListView.builder(
-              itemCount: medications.length,
-              itemBuilder: (context, index) {
-                final med = medications[index];
-                return ListTile(
-                  title: Text(med['name'] ?? ''),
-                  subtitle: Text('Dozaj: ${med['dosage'] ?? ''}'),
-                );
-              },
-            ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('medications')
+            .orderBy('createdAt', descending: true)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return const Center(child: Text('Henüz ilaç eklenmedi.'));
+          }
+          final meds = snapshot.data!.docs;
+          return ListView.builder(
+            itemCount: meds.length,
+            itemBuilder: (context, index) {
+              final data = meds[index].data() as Map<String, dynamic>;
+              return ListTile(
+                title: Text(data['name'] ?? ''),
+                subtitle: Text(
+                  'Dozaj: ${data['dosage'] ?? ''} - Zaman: ${data['time'] ?? ''}',
+                ),
+              );
+            },
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          // İlaç ekleme ekranına geçiş
           await Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => AddMedicationScreen()),
+            MaterialPageRoute(builder: (_) => const AddMedicationScreen()),
           );
-          // Geri dönüşte listeyi yenileyebilirsiniz (şimdilik dummy işlem)
-          setState(() {});
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
 }
 
-
 class DiaryPage extends StatelessWidget {
+  const DiaryPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Hasta Günlüğü (Dummy Data)'));
+    return const Center(child: Text('Hasta Günlüğü (Dummy Data)'));
   }
 }
 
 class SettingsPage extends StatelessWidget {
+  const SettingsPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Ayarlar (Dummy Data)'));
+    return const Center(child: Text('Ayarlar (Dummy Data)'));
   }
 }

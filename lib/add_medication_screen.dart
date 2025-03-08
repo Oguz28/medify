@@ -5,8 +5,7 @@ class AddMedicationScreen extends StatefulWidget {
   const AddMedicationScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _AddMedicationScreenState createState() => _AddMedicationScreenState();
+  State<AddMedicationScreen> createState() => _AddMedicationScreenState();
 }
 
 // ignore: library_private_types_in_public_api
@@ -50,9 +49,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Yeni İlaç Ekle'),
-      ),
+      appBar: AppBar(title: const Text('Yeni İlaç Ekle')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -64,9 +61,8 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                   labelText: 'İlaç Adı',
                   border: OutlineInputBorder(),
                 ),
-                validator: (value) => value == null || value.isEmpty
-                    ? 'Lütfen ilaç adını girin.'
-                    : null,
+                validator: (value) =>
+                    value == null || value.isEmpty ? 'Lütfen ilaç adını girin.' : null,
                 onSaved: (value) => medicationName = value,
               ),
               const SizedBox(height: 16),
@@ -75,9 +71,8 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                   labelText: 'Dozaj',
                   border: OutlineInputBorder(),
                 ),
-                validator: (value) => value == null || value.isEmpty
-                    ? 'Lütfen dozaj bilgisini girin.'
-                    : null,
+                validator: (value) =>
+                    value == null || value.isEmpty ? 'Lütfen dozaj bilgisini girin.' : null,
                 onSaved: (value) => dosage = value,
               ),
               const SizedBox(height: 16),

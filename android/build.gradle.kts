@@ -1,5 +1,4 @@
-// android/build.gradle
-
+// android/build.gradle.kts
 buildscript {
     repositories {
         google()
@@ -8,7 +7,7 @@ buildscript {
     dependencies {
         // Android Gradle Plugin sürümü
         classpath("com.android.tools.build:gradle:7.0.4")
-        // Google Services Gradle Plugin (Firebase)
+        // Google Services Gradle Plugin (Firebase için)
         classpath("com.google.gms:google-services:4.4.2")
     }
 }
@@ -19,3 +18,5 @@ allprojects {
         mavenCentral()
     }
 }
+
+// (İsteğe bağlı) Temizlik görevleri vb. ekleyebilirsiniz.

@@ -3,13 +3,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'add_medication_screen.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
+// ignore: library_private_types_in_public_api
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
-  final List<Widget> _pages = [
+  final List<Widget> _pages = const [
     MedicationListPage(),
     DiaryPage(),
     SettingsPage(),
@@ -21,12 +24,8 @@ class _HomeScreenState extends State<HomeScreen> {
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        items: [
+        onTap: (index) => setState(() => _currentIndex = index),
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.medical_services),
             label: 'İlaçlar',
@@ -46,16 +45,19 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class MedicationListPage extends StatefulWidget {
+  const MedicationListPage({super.key});
+
   @override
-  _MedicationListPageState createState() => _MedicationListPageState();
+  State<MedicationListPage> createState() => _MedicationListPageState();
 }
 
+// ignore: library_private_types_in_public_api
 class _MedicationListPageState extends State<MedicationListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('İlaç Listesi'),
+        title: const Text('İlaç Listesi'),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
@@ -64,10 +66,10 @@ class _MedicationListPageState extends State<MedicationListPage> {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text('Henüz ilaç eklenmedi.'));
+            return const Center(child: Text('Henüz ilaç eklenmedi.'));
           }
           final meds = snapshot.data!.docs;
           return ListView.builder(
@@ -76,7 +78,9 @@ class _MedicationListPageState extends State<MedicationListPage> {
               final data = meds[index].data() as Map<String, dynamic>;
               return ListTile(
                 title: Text(data['name'] ?? ''),
-                subtitle: Text('Dozaj: ${data['dosage'] ?? ''} - Zaman: ${data['time'] ?? ''}'),
+                subtitle: Text(
+                  'Dozaj: ${data['dosage'] ?? ''} - Zaman: ${data['time'] ?? ''}',
+                ),
               );
             },
           );
@@ -85,26 +89,29 @@ class _MedicationListPageState extends State<MedicationListPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => AddMedicationScreen()),
+            MaterialPageRoute(builder: (_) => const AddMedicationScreen()),
           );
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
 }
 
-
 class DiaryPage extends StatelessWidget {
+  const DiaryPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Hasta Günlüğü (Dummy Data)'));
+    return const Center(child: Text('Hasta Günlüğü (Dummy Data)'));
   }
 }
 
 class SettingsPage extends StatelessWidget {
+  const SettingsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Ayarlar (Dummy Data)'));
+    return const Center(child: Text('Ayarlar (Dummy Data)'));
   }
 }

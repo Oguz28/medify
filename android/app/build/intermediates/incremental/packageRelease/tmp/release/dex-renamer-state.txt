@@ -1,0 +1,4 @@
+#Sun Mar 09 01:15:13 TRT 2025
+base.0=D\:\\dev\\medify\\android\\app\\build\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

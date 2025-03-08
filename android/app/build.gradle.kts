@@ -1,37 +1,40 @@
-// android/app/build.gradle
-
-apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services' // Google Services Plugin'in eklenmesi
+// android/app/build.gradle.kts
+plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android") // Kotlin DSL için kotlin-android yerine bu kullanılıyor.
+    id("com.google.gms.google-services")
+    id("dev.flutter.flutter-gradle-plugin")
+}
 
 android {
-    compileSdkVersion 33
+    namespace = "com.app.medify"
+    compileSdk = flutter.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.app.medify"
-        minSdkVersion 21
-        targetSdkVersion 33
-        versionCode 1
-        versionName "1.0"
+        applicationId = "com.app.medify"
+        minSdk = flutter.minSdkVersion
+        targetSdk = flutter.targetSdkVersion
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = "11"
     }
 
     buildTypes {
-        release {
-            // Eğer release imzalama yapılandırmanız varsa, buraya ekleyin
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        getByName("release") {
+            // Burada release imzalama ayarlarınızı yapabilirsiniz. Şimdilik debug imza kullanılıyor.
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
 }
 
-dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.7.20"
-
-    // Firebase BoM (Bill of Materials) ile tüm Firebase bağımlılıklarının uyumlu sürümünü yönetiyoruz
-    implementation platform("com.google.firebase:firebase-bom:33.10.0")
-    
-    // Örneğin Firebase Analytics ve Firestore kullanımı
-    implementation "com.google.firebase:firebase-analytics"
-    implementation "com.google.firebase:firebase-firestore"
-    
-    // Diğer bağımlılıklarınız...
+flutter {
+    source = "../.."
 }

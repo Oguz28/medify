@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddMedicationScreen extends StatefulWidget {
-  const AddMedicationScreen({Key? key}) : super(key: key);
+  const AddMedicationScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddMedicationScreenState createState() => _AddMedicationScreenState();
 }
 
+// ignore: library_private_types_in_public_api
 class _AddMedicationScreenState extends State<AddMedicationScreen> {
   final _formKey = GlobalKey<FormState>();
   String? medicationName;
@@ -35,7 +37,10 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
         'time': '${selectedTime!.hour}:${selectedTime!.minute}',
         'createdAt': FieldValue.serverTimestamp(),
       });
-      Navigator.of(context).pop();
+      // Async işlem sonrası context kullanmadan önce mounted kontrolü
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Lütfen ilaç zamanını seçin.')),
@@ -60,9 +65,8 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                   labelText: 'İlaç Adı',
                   border: OutlineInputBorder(),
                 ),
-                validator: (value) => value == null || value.isEmpty
-                    ? 'Lütfen ilaç adını girin.'
-                    : null,
+                validator: (value) =>
+                    value == null || value.isEmpty ? 'Lütfen ilaç adını girin.' : null,
                 onSaved: (value) => medicationName = value,
               ),
               const SizedBox(height: 16),
@@ -71,9 +75,8 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                   labelText: 'Dozaj',
                   border: OutlineInputBorder(),
                 ),
-                validator: (value) => value == null || value.isEmpty
-                    ? 'Lütfen dozaj bilgisini girin.'
-                    : null,
+                validator: (value) =>
+                    value == null || value.isEmpty ? 'Lütfen dozaj bilgisini girin.' : null,
                 onSaved: (value) => dosage = value,
               ),
               const SizedBox(height: 16),

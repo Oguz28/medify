@@ -3,12 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'add_medication_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+// ignore: library_private_types_in_public_api
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   final List<Widget> _pages = const [
@@ -48,12 +50,14 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class MedicationListPage extends StatefulWidget {
-  const MedicationListPage({Key? key}) : super(key: key);
+  const MedicationListPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _MedicationListPageState createState() => _MedicationListPageState();
 }
 
+// ignore: library_private_types_in_public_api
 class _MedicationListPageState extends State<MedicationListPage> {
   @override
   Widget build(BuildContext context) {
@@ -101,7 +105,7 @@ class _MedicationListPageState extends State<MedicationListPage> {
 }
 
 class DiaryPage extends StatelessWidget {
-  const DiaryPage({Key? key}) : super(key: key);
+  const DiaryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +114,7 @@ class DiaryPage extends StatelessWidget {
 }
 
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {

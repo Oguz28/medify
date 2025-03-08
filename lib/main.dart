@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'splash_screen.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MedifyApp());
 }
 
 class MedifyApp extends StatelessWidget {
-  const MedifyApp({Key? key}) : super(key: key);
+  const MedifyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
